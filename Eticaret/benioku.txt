@@ -1,0 +1,161 @@
+﻿projenin versiyonunu seçerken alttaki siteden en uzun süre destek veren versiyonu bul
+https://versionsof.net/
+
+
+1.asp.net core web app(Model View Controller) proje türünü seçtik.(üyelik sistemi varsa Authentication Type bilgisini Individuals Accounts(bireysel hesaplar) seçtik- eğğer üyelik sistemi yoksa none bırakabilirsin.)
+2.projeyi açtık appsetting.json içerisinde projenin SQL tarafını belirledik. ConnectionStrings'i düzelttik.
+ "ConnectionStrings": {
+    "DefaultConnection": "Server=.;Database=EticaretDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+3.alttaki paketleri yükle
+Microsoft.EntityFramewrokCore
+Microsoft.EntityFramewrokCore.SqlServer
+Microsoft.EntityFramewrokCore.Tools
+Microsoft.EntityFramewrokCore.Design
+
+4.Register ve Login ekran tasarımlarını taşı html-css kodlarını ekle.
+5.Account/Register sayfasını görmek için Areas sağ tıkladık. Add New Scaffolded Item seçeneğinden Identity kısmına tıklayalım. (Register,Login,Logout,ForgotPassword)
+Login-Register-Forgot html tasarımlarını düzenle.
+
+6.Logo çalışması
+
+7.menüleri düzelttik (ikon ekledik. tasarım giydirilecek.)
+
+https://codepen.io/tofjadesign/pen/emmqGKX
+
+-eğer projeyi ilk çalıştırdıgınızda açılan https sertifikaya onay vermezseniz, ilerleyen çalıştırmalarda patlar
+çözmek için cmd ekranından projenin bulundugu folder git ve alttaki kodu yazarak https sertifikasını yüklemek gerekir.
+dotnet dev-certs https
+
+sunucuda https yayınlamak için alttaki makaleyi oku
+https://nagihanesendal.blogspot.com/2023/11/net-6-ile-gelistirilmis-projeyi-sunucu.html
+
+
+Rol Nedir?
+Yetki : kullanıcıların farklı seviyede sahip oldukları özellikler
+Admin    : Uye Ekleme, Uyeyi pasife çekme, üye bilgilerini güncelleme
+Operator : admin ile uye arasındaki bir rol. (team lead)
+Uye      : Urun Datası Ekleme,Urun fotograflarını güncelleme vs.
+
+
+Cesar Şifreleme 
+Ali'yi öldür.  (3 anahtar kaydırma sayısı)
+Eö.....
+
+SHA
+MD5
+
+Brute Force (zorla wifiya sızmak)
+ceh 
+linux(kali)
+
+
+Rol Tabanlı Sistemlerde ilk başta data girdik.
+-AspnetRoles      : rolleri tutar.        (3 kayıt girdik. Admin-Uye-Operator)
+-AspnetUsers      : kullanıcıları tutar.  (User kayıtlarını ekledik)
+-AspnetUserRoles  : kullanıcı hangi rolde (Kullanıcıların ve yetkilerin tanımlaması buraya yapılır)
+
+2.AddRoles<IdentityRole>() kodunu ekleyerek (program.cs içerisine ekledik)
+3.AdminControllers içerisine bir metot yazıp, view getirmesini sağlıyoruz.
+4.eğer login olan adam admin ise o sayfayı açabilmeli, yetkisizse Access Denied hatası verecek.
+5.Yetkili kullanıcı ise ilgili sayfayı görebilecek.
+
+
+aspnetRoles tablosuna data Ekleme Scripti
+INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'1', N'Admin', N'Admin', N'Admin')
+INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'2', N'Uye', N'Uye', N'Uye')
+INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'3', N'Operator', N'Operator', N'Operator')
+
+
+1.Önce Rol Ekledik. 
+2.User Register ekranından yeni bir user tanımlama gerçeleştirdik.
+3.ASPNetUserRoles tablosuna user'ın id bilgisini ve hangi rolde olacak o rolün id bilgisini ekledik.
+4.eğer sadece üyelik yeterli ve rol tanımlaması yoksa bu durumda direkt projeyi açtıgın haliyle kullanabilirsin.
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+Role göre birşeyler yapmak sayfları açmak ya da açmamak istiyorsak bu durumda alttaki kodu Program.cs içerisine eklemek gerekir.
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+Authorize(Roles="Admin") // bu kod aspnetUserRoles tablosuna bakar. user yetkisi Admin olana sayfayı açar. Admin olmayan roldeki kişilere Access Denied hatası verir.
+
+
+Yeni Bir Userı Tanımlama, Rol Atama ve User'ın göreceği sayfayı oluşturma
+1.Operasyonel işleri yürütmek adına kullanıcı adı operasyon@aribilgi.com olan bir mail ve 1.2345Abc şifresni kullanarak yeni bir user oluşturalım. (projeyi çalıştır arayüzden üye ol linkine tıklayarak userı generate et.)++
+2.bu user'a Operator yetkisini verelim.(dbdeki AspnetUserRoles tablosundan yapılır)
+
+  select lower(NEWID())--guid : global unique identifier global seviyede bir tekrarı üretme şansının az oldugu bir eşsiz tekil değer.
+
+
+3.Operator rolunde olan kişilerin sisteme giriş yapması durumunda açılacak olan Operator/Liste sayfasını sadece operatör rolunde olanların görebileceği şekilde OperatorController içerisinde gerekli olan düzenlemeleri yapalım.(Controller aç adı OperatorController olsun. İçine liste metodu ekle. Liste sayfasını sadece authenticate olmuş ve Rolü Operator olanları görebileceği şekilde düzenle.)++
+
+4.Sayfa içerisinde kitap dummy datası gözükecek sekilde rastgele kitap isimlerini ekleyelim.(yapay zekadan aldıgımız 20 kitap ismini sayfada gösterecek sekilde bir tasarım yap)++
+
+
+*Eğer 1 sayfada 1den fazla rol tanımlanıp kullanılacaksa.
+Operator içerisine hemAdminHemOp adında yeni bir metot tanımlayalım. Sayfada açılınca operatorde admin de görebilir mesajını gösterelim.      
+[Authorize(Roles = "Operator,Admin")]
+
+*Controller içerisindeki tüm metotlara yetki vermek istersek. içerisinde 10 metot var, 10 metoda tek tek login Authorize ifadesini eklemek yerine class'ın tepesine bunu verirseniz. içerisindeki tüm metotlar viewlar login ister.
+
+    //[Authorize] //class içerisindeki bütün metotlara tek tek Authorize yazmak yerine class seviyesinde classın tepesine Authorize ekleriz.
+
+*bütün metotlara yetki vermek içerideki sadece tek bir metodu herkese açmak istersek.
+ [AllowAnonymous] tanımlamasını metot tepesine yazarak. Class seviyesinde verilen authenticate özelliğini devre dışı bırakabiliriz
+[AllowAnonymous] //kimlik dogrulama gerektirmeden erişimi herkese açar
+
+
+*Belirli bir yetki/policye baglı olan userları kısıtlama için 
+[Authorize(Policy="...")] o policydeki userı kısıtlar
+
+
+
+poc: proof of concept: projenin kanıtı, ön gösterimi
+kkt: kullanıcı kabul testi 
+
+
+
+
+https://nagihanesendal.blogspot.com/2020/08/viewbag-viewdata-tempdata-farklar.html
+
+
+
+
+
+*Uye Ol / Giriş Yap sayfasında yeni bir menu ekleyelim. (Shared/_LoginPartial.cshtml)
+*Menu içeriğinde AdminPanel yazsın.
+*Tıklanınca /Admin/Index'e gitsin.
+
+
+
+https://localhost:7066/Admin/Index ile https://localhost:7066/Admin aynı sayfaya gider.
+
+Kullanıcı Adı : ' or '1'='1
+Şifre         : ' or '1'='1
+
+kullanıcı adı admin,şifre 123 ise giriş yapabilsin.
+kullaniciadi='xxxx ' or '1'='1'
+sifre='124' or '1'='1'
+
+
+
+//1.front end. (html-css-js) Admin Panel giydirme
+//2.Kullanıcıya Rol Atama sayfası ekleyelim. (Admin rolu yapsın.)+
+//açılan sayfada kullanıcı Rolleri,Kullanıcılar olsun. (ekranda bunları seçebilmeli)
+//3.bunun metodunu yazıp ViewBag.kullanicilar=... ile bu verileri view tarafına taşıma kısmına bakalım (controllerdan view tarafına veri taşıma)
+
+//admin controller içerisine RolAtama sayfası ekleyelim.
+Controllerdan View'a veri taşıma.
+
+//1.startbootstrap sitesinden Admin Template'i indir.
+https://startbootstrap.com/previews/sb-admin 
+indirme işlemi sonrasında css/assets/js kodları proje içerisinde Admin Folder'ına taşıdık
+
+
+
+Proje Özellikleri
+1. .net 8 ile kodlanmış, Admin Panelli ve Rol Tabanlı üyelik sistemli bir web projesi.
+2. proje hangi amaçla, hangi işleri kolaylaştırır, kar marjı ne ne kadar kar edildi.
+3. asp.net mvc kullanıldı. (js framework (ajax,react,node.js vs.))
+4. projenin github linki
