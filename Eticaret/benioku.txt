@@ -140,13 +140,76 @@ sifre='124' or '1'='1'
 
 
 
-//1.front end. (html-css-js) Admin Panel giydirme
+//1.front end. (html-css-js) Admin Panel giydirme++
 //2.Kullanıcıya Rol Atama sayfası ekleyelim. (Admin rolu yapsın.)+
 //açılan sayfada kullanıcı Rolleri,Kullanıcılar olsun. (ekranda bunları seçebilmeli)
 //3.bunun metodunu yazıp ViewBag.kullanicilar=... ile bu verileri view tarafına taşıma kısmına bakalım (controllerdan view tarafına veri taşıma)
 
 //admin controller içerisine RolAtama sayfası ekleyelim.
 Controllerdan View'a veri taşıma.
+
+1.KullaniciRolAta metodunda Rolleri ve Kullanıcıları ViewBag aracılıgı ile view tarafına gönderdik.
+  public IActionResult KullaniciRolAta()
+        {
+            var kullaniciListesi = dbContext.Users.ToList();
+            var rolListesi = dbContext.Roles.ToList();
+            ViewBag.kullanicilar = new SelectList(kullaniciListesi, "Id", "UserName");
+            ViewBag.roller = new SelectList(rolListesi, "Id", "Name");
+            return View();
+        }
+
+2. KullaniciRolAta View içerisinde kullanacağımız modeli Models katmanına ekledik.
+    public class UserRol
+    {
+        public string RolId { get; set; }        
+        public string UserId { get; set; }
+    }
+
+3. KullaniciRolAta sayfasınde viewbagden gelen kullanicilar ve roller dataalarını sayfada selectlist ile göster 
+<div class="container-fluid px-4">
+                    Kullanıcı Rol Atama Sayfası
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form asp-action="KullaniciRolAta">
+                            <div class="form-group">
+                                <label>User Seç</label>
+                                <select asp-for="UserId" class="form-control" asp-items="ViewBag.kullanicilar"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Rol Seç</label>
+                                <select asp-for="RolId" class="form-control" asp-items="ViewBag.roller"></select>
+                            </div>
+                            <input type="submit" value="Rol Ata" class="btn btn-primary" />
+                            </form>
+                        </div>                       
+                    </div>
+
+                </div>
+
+4. Buttona tıklanınca backende seçilmiş olan verileri gönder ve veritabanındaki UserRoles tablosuna ekle dedik.
+   [HttpPost]
+        public IActionResult KullaniciRolAta(UserRol userrol)
+        {
+            // Convert UserRol to IdentityUserRole<string>
+            var identityUserRole = new IdentityUserRole<string>
+            {
+                UserId = userrol.UserId,
+                RoleId = userrol.RolId
+            };
+
+            dbContext.UserRoles.Add(identityUserRole);
+            dbContext.SaveChanges(); 
+
+            return View();
+        }
+
+
+ödev
+OgrenciyeDers Atama Ekranını yap.
+viewBag ile Userları ve dersleri o ekranda göster.
+buttona tıklanınca seçilen öğrenci seçilen ders atansın.
+
 
 //1.startbootstrap sitesinden Admin Template'i indir.
 https://startbootstrap.com/previews/sb-admin 
