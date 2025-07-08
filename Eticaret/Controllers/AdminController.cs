@@ -11,10 +11,12 @@ namespace Eticaret.Controllers
     public class AdminController : Controller
     {
         public ApplicationDbContext dbContext;
+        public EticaretDBContext _context;
 
-        public AdminController(ApplicationDbContext _dbcontext)
+        public AdminController(ApplicationDbContext _dbcontext, EticaretDBContext context)
         {
             dbContext = _dbcontext;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -42,8 +44,27 @@ namespace Eticaret.Controllers
             };
 
             dbContext.UserRoles.Add(identityUserRole);
-            dbContext.SaveChanges(); 
+            dbContext.SaveChanges();
 
+            return View();
+        }
+
+        public IActionResult OgrenciDersAta()
+        {
+            //ViewBag ile ogrenciler ve dersler datasını hazırla.
+            var ogrenciListesi = _context.Ogrenci.ToList();
+            var dersListesi = _context.Ders.ToList();
+            ViewBag.ogrenciler = new SelectList(ogrenciListesi, "OgrenciId", "OgrenciAd");
+            ViewBag.dersler = new SelectList(dersListesi, "DersId", "DersAd");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult OgrenciDersAta(OgrenciDers ogrenciDers)
+        {
+            //gelen ogrenciders bilgisi ogrenciders tablosuna eklenecek.
+            _context.OgrenciDers.Add(ogrenciDers);
+            _context.SaveChanges();
             return View();
         }
     }

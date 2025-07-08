@@ -222,3 +222,39 @@ Proje Özellikleri
 2. proje hangi amaçla, hangi işleri kolaylaştırır, kar marjı ne ne kadar kar edildi.
 3. asp.net mvc kullanıldı. (js framework (ajax,react,node.js vs.))
 4. projenin github linki
+
+
+
+Proje oluşturma Algoritması
+1.ne yapacağına karar ver. (classlar burda netleşir)
+2.asp.net core web app(mvc) proje türü açılır, üyelik sistemini seçerek aç
+3.Rol tabanlı üyelik sistemi olacaksa program.cs düzeltilir.
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+rol tabanlı değilse
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+4. front endde göstereceğin template'i seçme (themewagon,themeforest, startbootstrap vs)
+
+5. proje içerisine 4teki tasarımın html,css,js,images vs. wwwroot içerisine taşınır.
+6. Admin panel olmalı mı?
+7. admin template bulup giydirmek lazım.
+8. urunleri listele, urunleri sepete ekle, sepetteki ürünleri gör, indirimleri kuponları uygula vs. ekranları yap. Ödeme olacaksa iyzico ,ödeme alt yapısını sıfırdan kodla.(Sanal Pos alınması ve entegre edilmesi)
+9. partnerler arası toplu müşteri aktarımı
+10.MailGönderme Ekranı tasarımı, backend mail gönderme kodları, gmail üzerinden mail gönderme kodlarını çalıştırabiliriz.(mailSend kodları)smtp.gmail.com sunucusundan 587 portu ile mail gönderme  (gönderen kısmı : from), (alıcı kısmı: to) MailSender classı ile mail gönderme)
+11.SMSGönderme kısmı yapılabilir.(Sms paketi almak lazım.)
+12.WP destek
+13.kendinden eklediklerin, pazar araştırması(ekstra bonus)
+
+
+
+
+
+
+
+
+
+ 
