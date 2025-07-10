@@ -3,6 +3,7 @@ using Eticaret.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eticaret.Migrations
 {
     [DbContext(typeof(EticaretDBContext))]
-    partial class EticaretDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250710162943_UrunTablosuEklendi")]
+    partial class UrunTablosuEklendi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,27 +46,6 @@ namespace Eticaret.Migrations
                     b.HasKey("DersId");
 
                     b.ToTable("Ders");
-                });
-
-            modelBuilder.Entity("Eticaret.Models.Kategori", b =>
-                {
-                    b.Property<int>("KategoriId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KategoriId"));
-
-                    b.Property<string>("KategoriAd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KategoriFotoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("KategoriId");
-
-                    b.ToTable("Kategori");
                 });
 
             modelBuilder.Entity("Eticaret.Models.Ogrenci", b =>
@@ -118,13 +100,6 @@ namespace Eticaret.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UrunId"));
 
-                    b.Property<string>("FotoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("KategoriId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Marka")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -142,25 +117,7 @@ namespace Eticaret.Migrations
 
                     b.HasKey("UrunId");
 
-                    b.HasIndex("KategoriId");
-
                     b.ToTable("Urun");
-                });
-
-            modelBuilder.Entity("Eticaret.Models.Urun", b =>
-                {
-                    b.HasOne("Eticaret.Models.Kategori", "Category")
-                        .WithMany("Urunler")
-                        .HasForeignKey("KategoriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Eticaret.Models.Kategori", b =>
-                {
-                    b.Navigation("Urunler");
                 });
 #pragma warning restore 612, 618
         }

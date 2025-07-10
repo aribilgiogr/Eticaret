@@ -3,6 +3,7 @@ using Eticaret.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eticaret.Migrations
 {
     [DbContext(typeof(EticaretDBContext))]
-    partial class EticaretDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250710173625_KategoriClassiEklendi")]
+    partial class KategoriClassiEklendi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,10 +57,6 @@ namespace Eticaret.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KategoriId"));
 
                     b.Property<string>("KategoriAd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KategoriFotoPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

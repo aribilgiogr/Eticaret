@@ -205,10 +205,9 @@ Controllerdan View'a veri taşıma.
         }
 
 
-ödev
 OgrenciyeDers Atama Ekranını yap.
 viewBag ile Userları ve dersleri o ekranda göster.
-buttona tıklanınca seçilen öğrenci seçilen ders atansın.
+buttona tıklanınca seçilen öğrenci seçilen ders atansın.+++
 
 
 //1.startbootstrap sitesinden Admin Template'i indir.
@@ -248,6 +247,24 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 11.SMSGönderme kısmı yapılabilir.(Sms paketi almak lazım.)
 12.WP destek
 13.kendinden eklediklerin, pazar araştırması(ekstra bonus)
+
+
+10.07.2025 
+
+  --urunun hangi bilgilerini tutalım?                  (urunid,ad,fiyati,marka,model)++
+  --urun bilgilerini doldurucak bir metot hazırlayalım (dummy urunler eklenecek, bir metot yazarız.)++UrunDatalariniEkle() metodu HomeController içerisindeki Index metodu içerisinde çağırıldı.
+  --urun bilgilerini göstereceğimiz ana sayfa template'ni seçelim. Projemize bu template yapısını giydirelim. Ekranda yeni seçtiğimiz templatte, dummy eklediğimiz verileri gösterelim.
+
+  --Template olarak https://themewagon.com/themes/kaira/  linkindeki tasarımı indirdik.
+  --css,js,images klasörlerini proje içerisindeki wwwroot klasörüne taşıdık.
+  --layout olmadıgını gördük.
+  --index.html'den sayfaların hepsinde ortak olacağını düşündüğümüz kısımları layout.cshtml içerisine taşıdık.
+
+  bizim ürünler ile indirmiş olduğumuz template içerisindeki urunlerdeki farklılıklar
+  1.urun kategorisi bizimkinde yok (urun ve kategori arasındaki ilişki)
+  2.urun fotografı bizimkinde yok
+  
+
 
 
 
