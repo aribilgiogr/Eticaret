@@ -19,6 +19,10 @@ namespace Eticaret.Data
 
         //OgrenciDers tablosu için buraya modeli ekle.
         public DbSet<OgrenciDers> OgrenciDers { get; set; } 
+        public DbSet<Urun> Urun { get; set; } 
+        public DbSet<Kategori> Kategori { get; set; } 
+
+        
 
     }
 }
