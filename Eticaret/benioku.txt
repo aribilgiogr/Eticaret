@@ -266,12 +266,87 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
   
 
 
+  11.07.2025
+  
+  1.dünkü template içerisinden urunlerin gösterileceği bölümü bulduk. alttaki section ile başlayan kısım
+  <section id="new-arrival" class="new-arrival product-carousel py-5 position-relative overflow-hidden">
+
+  2.bu section içerisinde hangi kategoriye tıklanmışsa urunler tablosunda o kategori ile eşleşen kayıtları bulduk, kayıtları liste haline getirdik ve List<Urun> model olarak ilgili sayfaya verdik.
+  public IActionResult Details(int id)
+        {
+            //urun tablosuna git, o kategoriid'deki ürünlerin hepsini bul ve getir.
+            List<Urun> urunler=_context.Urun.Where(satir => satir.KategoriId == id).ToList();
+
+            return View(urunler);
+        }
+
+ 3. Kategoriye tıklanınca o kategori id bilgisini al ve Detailse metoduna göndermek için html kodunu alttaki gibi düzelttik.
+
+ /Home/Details/id : id = kategoriid anlamına gelecek.
+
+ <a asp-action="Details" asp-controller="Home" asp-route-id="@item.KategoriId">
+                                    <img src="@item.KategoriFotoPath" alt="categories" class="product-image img-fluid" style="width:285px;height: 250px;">
+</a>
 
 
 
 
+fotograf eğer proje içerisindeki images folderı altından geliyorsa bu durumda alttaki kodu çalıştırarak fotografın gözükmesini sağladık.
 
 
+update Urun set FotoPath='../../images/tablet.jpg' where UrunId=3
 
 
  
+
+blog yazılarını görüntüleme sayfasını oluşturalım.
+
+Blog tablosunu oluşturalım.
+blog id
+blog görseli
+blog metni
+blog yazarı
+
+Models folderi içerisine alttaki alanları ekledik.
+
+public class Blog
+{
+        //blog id
+        //blog görseli
+        //blog metni
+        //blog yazarı
+
+        public int BlogId { get; set; }
+        public string FotoPath { get; set; }
+        public string BlogMetni { get; set; }
+        public string BlogYazari { get; set; }
+}
+
+Data Folder'i içerisinde 2 adet context yapısı mevcut.
+1.Uyelik sistemli açtıgımız için ApplicationDbContext 
+2.proje datalarını EticaretDBContext içerisine ekliyoruz
+
+Proje datası oldugu için EticaretDBContext içerisine alttaki kodu ekleyerek tablonun oluşmasını sağladık
+public DbSet<Blog> Blog { get; set; }
+
+PackageManagerConsole içerisine alttaki kodu yazdık. 
+add-migration BlogModeliEklendi -Context EticaretDBContext (eğer 2 context varsa)
+add-migration BlogModeliEklendi (tek context)
+
+Migration(göç: c#dan  sql tarafına tablo oluşturma kodlarını sql tarafında çalıştırır.)
+update-database -Context EticaretDBContext
+
+3-4 tane kayıt eklenecek. (Projenin ilk çalışma alanında bu kısım yapılır.)++
+
+/Home/Blogs metot tanımlanacak
+
+View yapısı oluşturulup blog datalarını o sayfada gösterme
+template bilgisini indirdiğimiz html sayfasından alalım (Read Blog Posts bölümünü)
+
+ödev
+-admin sayfasında blog yazısı eklenebilecek kodu sayfayı tasarlayıp.
+Blog görseli yüklenecek.
+blog metni girilsin.
+blog yazarı girilip buttona tıklanınca bu bilgileri blog tablosuna kaydedip ana sayfada gösterecek. 
+(onay yapısı ekleyerek yapalım)
+

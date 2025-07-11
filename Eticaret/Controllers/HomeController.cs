@@ -27,7 +27,56 @@ namespace Eticaret.Controllers
             DersAdlariniEkle();
             KategorileriEkle();
             UrunDatalariniEkle();
-            return View();
+            BlogDatalariniEkle();
+
+            //sayfada kategori adlarý gözükmeli, bu yüzden sayfayý açarken bir kategori listesi oluþturalým ve view yapýsýnýn bu data ile açýlmasýný saðlayalým
+            List<Kategori> kategorilerim=_context.Kategori.ToList();
+            return View(kategorilerim);
+        }
+
+        private void BlogDatalariniEkle()
+        {
+            List<Blog> bloglar = new List<Blog>() {
+            new Blog
+            {
+                FotoPath = "https://img-c.udemycdn.com/course/750x422/5755160_8fe1_2.jpg",
+                BlogMetni = "Yazýlým dünyasýna giriþ.",
+                BlogYazari = "Uður Aydýn"
+            },
+            new Blog
+            {
+                FotoPath = "https://i.ytimg.com/vi/UiTbBWLCIJw/maxresdefault.jpg",
+                BlogMetni = "C# ve .NET Core üzerine temel bilgiler.",
+                BlogYazari = "Cemre Berfin"
+            },
+            new Blog
+            {
+                FotoPath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZx49aPzAvg_oJAL0MKvlk-WRuN0sUB2z5Fw&s",
+                BlogMetni = "Veritabaný optimizasyonu nasýl yapýlýr?",
+                BlogYazari = "Ali Yýlmaz"
+            },
+            new Blog
+            {
+                FotoPath = "https://www.tpkmedya.com/wp-content/uploads/2021/07/frontend-backend.png",
+                BlogMetni = "Frontend mi Backend mi? Kararsýz kalanlar için rehber.",
+                BlogYazari = "Ayþe Demir"
+            },
+            new Blog
+            {
+                FotoPath = "https://i.ytimg.com/vi/cYf1r4wLBZ4/maxresdefault.jpg",
+                BlogMetni = "Freelance yazýlýmcý olarak nasýl para kazanýlýr?",
+                BlogYazari = "Uður Aydýn"
+            }};
+
+            if (_context.Blog.ToList().Count == 0)
+            {
+                foreach (var item in bloglar)
+                {
+                    _context.Blog.Add(item);                    
+                }
+                _context.SaveChanges();
+            }
+
         }
 
         private void DersAdlariniEkle()
@@ -151,6 +200,20 @@ namespace Eticaret.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Details(int id)
+        {
+            //urun tablosuna git, o kategoriid'deki ürünlerin hepsini bul ve getir.
+            List<Urun> urunler=_context.Urun.Where(satir => satir.KategoriId == id).ToList();
+
+            return View(urunler);
+        }
+
+        public IActionResult Blog()
+        {
+            List<Blog> liste=_context.Blog.ToList();
+            return View(liste);
         }
     }
 }
