@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Eticaret.Data;
 using Eticaret.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eticaret.Controllers

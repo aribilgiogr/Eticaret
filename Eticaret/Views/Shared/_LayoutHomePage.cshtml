@@ -161,6 +161,7 @@
                     <svg class="search" width="24" height="24">
                         <use xlink:href="#search"></use>
                     </svg>
+
                 </button>
             </form>
 
@@ -379,7 +380,8 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Blog</a>
+                                    <a class="nav-link" asp-action="Blog" asp-controller="Home">Blog</a>
+                                    
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Contact</a>
@@ -402,6 +404,8 @@
                                 Cart <span class="cart-count">(0)</span>
                             </a>
                         </li>
+
+                     
                         <li class="d-lg-none">
                             <a href="#" class="mx-2">
                                 <svg width="24" height="24" viewBox="0 0 24 24">
@@ -424,6 +428,10 @@
                                 </svg>
                             </a>
                         </li>
+
+                        <li style="margin-top: -2%;">
+                            <partial name="_LoginPartial" />
+                        </li>
                     </ul>
                 </div>
 
@@ -444,7 +452,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="footer-menu footer-menu-001">
                         <div class="footer-intro mb-4">
-                            <a href="index.html">                                
+                            <a href="index.html">
                                 <img src="~/images/logo.svg" />
                             </a>
                         </div>
@@ -592,6 +600,8 @@
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="~/js/script.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
